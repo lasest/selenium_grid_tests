@@ -1,0 +1,11 @@
+FROM python:slim
+
+WORKDIR /app
+ENV PYTHONPATH="${PYTHONPATH}:/app"
+
+COPY requirements.lock ./
+RUN sed '/^-e/d' requirements.lock > requirements.txt
+RUN PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir -r requirements.txt
+
+COPY src .
+CMD python -m pytest --alluredir /data

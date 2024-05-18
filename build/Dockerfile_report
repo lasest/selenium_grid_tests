@@ -1,0 +1,7 @@
+FROM python:slim
+
+WORKDIR /app
+
+RUN PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir allure-pytest
+
+CMD allure serve /data

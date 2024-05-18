@@ -1,0 +1,40 @@
+version: "3"
+services:
+  selenium-hub:
+    image: "selenium/hub"
+    ports:
+      - 4444:4444
+  
+  selenium-node-firefox:
+    image: "selenium/node-firefox"
+    volumes:
+      - /dev/shm:/dev/shm
+    environment:
+      HUB_HOST: selenium-hub
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_NODE_MAX_SESSIONS: 10
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SE_VNC_NO_PASSWORD: 1
+      JAVA_OPTS: -Dwebdriver.chrome.whitelistedIps=
+    depends_on:
+      - selenium-hub
+
+  test-container:
+    image: simbirsoft_test
+    environment:
+      HUB_HOST: selenium-hub
+      REPORTS_PATH: /data/reports
+      EXPORT_PATH: /data/export
+    depends_on:
+      - selenium-node-firefox
+    volumes:
+      - ${SIMBIRSOFT_APP_DATA_PATH}:/data
+  
+  report-container:
+    image: simbirsoft_report
+    volumes:
+      - ${SIMBIRSOFT_APP_DATA_PATH}:/data
+    environment:
+      REPORTS_PATH: /data/reports
+    
