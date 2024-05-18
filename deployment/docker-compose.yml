@@ -27,7 +27,7 @@ services:
       REPORTS_PATH: /data/reports
       EXPORT_PATH: /data/export
     depends_on:
-      - selenium-node-firefox
+      - selenium-hub
     volumes:
       - ${SIMBIRSOFT_APP_DATA_PATH}:/data
   

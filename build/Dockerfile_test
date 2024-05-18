@@ -1,11 +1,18 @@
 FROM python:slim
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl jq \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 ENV PYTHONPATH="${PYTHONPATH}:/app"
+
+COPY scripts/wait_for_grid.sh ./
+RUN chmod +x ./wait_for_grid.sh
 
 COPY requirements.lock ./
 RUN sed '/^-e/d' requirements.lock > requirements.txt
 RUN PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir -r requirements.txt
 
 COPY src .
-CMD python -m pytest --alluredir /data
+CMD ./wait_for_grid.sh && python -m pytest --alluredir /data/reports simbirsoft/tests/test_website.py
