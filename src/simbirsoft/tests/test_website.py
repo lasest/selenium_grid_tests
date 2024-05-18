@@ -1,5 +1,6 @@
 from typing import Callable, Generator
 
+import allure  # type: ignore
 import pytest
 from selenium import webdriver
 
@@ -80,3 +81,10 @@ def test_transactions(
     filename = export.get_timestamp_filename(".csv")
     export_path = configuration.EXPORT_PATH / filename
     export.export_transactions(transactions, export_path)
+
+    with open(export_path, "r") as fh:
+        content = fh.read()
+
+    allure.attach(
+        content, name="transactions.csv", attachment_type=allure.attachment_type.CSV
+    )
