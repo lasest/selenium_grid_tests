@@ -37,4 +37,6 @@ services:
       - ${SIMBIRSOFT_APP_DATA_PATH}:/data
     environment:
       REPORTS_PATH: /data/reports
+    ports:
+      - 9000:9000
     

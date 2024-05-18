@@ -1,7 +1,15 @@
 FROM python:slim
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends wget default-jre \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget https://github.com/allure-framework/allure2/releases/download/2.29.0/allure_2.29.0-1_all.deb \
+    && dpkg -i allure_2.29.0-1_all.deb \
+    && rm allure_2.29.0-1_all.deb
+
 WORKDIR /app
 
 RUN PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir allure-pytest
 
-CMD allure serve /data
+CMD allure serve -h 0.0.0.0 -p 9000 /data/reports

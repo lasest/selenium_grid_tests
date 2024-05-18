@@ -10,4 +10,4 @@ cd $DEPLOYMENT_DIR
 
 podman-compose down
 podman-compose build
-APP_DATA_DIR=$APP_DATA_DIR podman-compose up
+SIMBIRSOFT_APP_DATA_PATH=$APP_DATA_DIR podman-compose up
