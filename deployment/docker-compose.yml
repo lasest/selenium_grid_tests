@@ -4,6 +4,8 @@ services:
     image: "selenium/hub"
     ports:
       - 4444:4444
+    networks:
+      - grid_bridge
   
   selenium-node-firefox:
     image: "selenium/node-firefox"
@@ -19,6 +21,8 @@ services:
       JAVA_OPTS: -Dwebdriver.chrome.whitelistedIps=
     depends_on:
       - selenium-hub
+    networks:
+      - grid_bridge
 
   test-container:
     image: simbirsoft_test
@@ -30,6 +34,8 @@ services:
       - selenium-hub
     volumes:
       - ${SIMBIRSOFT_APP_DATA_PATH}:/data
+    networks:
+      - grid_bridge
   
   report-container:
     image: simbirsoft_report
@@ -39,4 +45,11 @@ services:
       REPORTS_PATH: /data/reports
     ports:
       - 9000:9000
-    
+    networks:
+      - report_bridge
+
+networks:
+  grid_bridge:
+    driver: bridge
+  report_bridge:
+    driver: bridge
