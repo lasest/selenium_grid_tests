@@ -1,5 +1,4 @@
 import csv
-from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 
@@ -16,7 +15,7 @@ def get_timestamp_filename(file_extension: str, index: int | None = None) -> str
 
 
 def export_transactions(transactions: list[Transaction], output_path: Path) -> None:
-    data = [asdict(transaction) for transaction in transactions]
+    data = [transaction.to_dict() for transaction in transactions]
     if not data:
         return
 

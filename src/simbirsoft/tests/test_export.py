@@ -5,7 +5,7 @@ import freezegun
 from pyfakefs.fake_filesystem import FakeFilesystem
 
 import simbirsoft.export as export
-from simbirsoft.models import Transaction
+from simbirsoft.models import Transaction, TransactionType
 
 
 @freezegun.freeze_time("2020-01-10 15:00:00")
@@ -17,8 +17,8 @@ def test_get_timestamp_filename() -> None:
 @freezegun.freeze_time("2020-01-10 15:00:00")
 def test_export_transactions(fs: FakeFilesystem) -> None:
     transactions = [
-        Transaction(datetime.now(), 50, "Credit"),
-        Transaction(datetime.now(), 100, "Debit"),
+        Transaction(datetime.now(), 50, TransactionType.CREDIT),
+        Transaction(datetime.now(), 100, TransactionType.DEBIT),
     ]
 
     filename = export.get_timestamp_filename(".csv")

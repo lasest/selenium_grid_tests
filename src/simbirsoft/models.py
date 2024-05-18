@@ -1,16 +1,21 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Literal, cast
+from enum import Enum
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
+
+
+class TransactionType(Enum):
+    CREDIT = "Credit"
+    DEBIT = "Debit"
 
 
 @dataclass
 class Transaction:
     timestamp: datetime
     amount: int
-    type: Literal["Credit", "Debit"]
+    type: TransactionType
 
     @staticmethod
     def parse_timestamp(timestamp_string: str) -> datetime:
@@ -27,6 +32,14 @@ class Transaction:
 
         timestamp = cls.parse_timestamp(timestamp_str)
         amount = int(amount_str)
-        type_str = cast(Literal["Credit", "Debit"], type_str)
+        transaction_type = TransactionType(type_str)
 
-        return Transaction(timestamp=timestamp, amount=amount, type=type_str)
+        return Transaction(timestamp=timestamp, amount=amount, type=transaction_type)
+
+    def to_dict(self) -> dict[str, str]:
+        data: dict[str, str] = {}
+        data["Date"] = self.timestamp.strftime("%d %B %Y %H:%M:%S")
+        data["Amount"] = str(self.amount)
+        data["Type"] = self.type.value
+
+        return data
