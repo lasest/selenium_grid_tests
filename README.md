@@ -11,7 +11,7 @@
 
 1. Clone the repository
 
-`git clone <url>`
+`git clone git@github.com:lasest/selenium_grid_tests.git`
 
 2. Cd into the repository
 
