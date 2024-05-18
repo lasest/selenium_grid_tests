@@ -10,6 +10,5 @@ mkdir -p "$APP_DATA_DIR/reports"
 
 cd "$DEPLOYMENT_DIR"
 
-podman-compose down
-podman-compose build
-SIMBIRSOFT_APP_DATA_PATH=$APP_DATA_DIR podman-compose up selenium-hub selenium-node-firefox test-container
+SIMBIRSOFT_APP_DATA_PATH=$APP_DATA_DIR docker compose down
+SIMBIRSOFT_APP_DATA_PATH=$APP_DATA_DIR docker compose up selenium-hub selenium-node-firefox test-container
