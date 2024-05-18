@@ -10,7 +10,10 @@ class TransactionsPage(Page):
     def transaction_trs(self) -> list[WebElement]:
         xpath = "//tbody"
         table_body = self.find_element_by_xpath(xpath)
-        # table_body = self.driver.find_element(By.TAG_NAME, "tbody")
+
+        xpath = "./tr"
+        self.find_element_by_xpath(xpath, base_element=table_body)
+
         rows = table_body.find_elements(By.TAG_NAME, "tr")  # type: ignore
 
         return rows
