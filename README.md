@@ -3,9 +3,9 @@
 ## Project structure
 
 - `build`: contains files for building container images
-- `deployment`: contains file for running containers
-- `scripts`: contains files to run the project locally (without containers)
-- `src`: contains utility functions necessary for text execution, tests for those functions and actual website tests
+- `deployment`: contains files for running containers
+- `scripts`: contains files for running the project without containers
+- `src`: contains utility functions necessary for test execution, tests for those functions and actual website tests. Website tests are in `./src/simbirsoft/tests/test_website.py`
 
 ## How to run
 
@@ -39,12 +39,16 @@ Two images will be built by the script:
 
 7. View reports at `0.0.0.0:9000`
 
-**Note:** all build and deployment scripts are provided for docker and podman. Each should work, but podman was tested more.
+**Note:** all build and deployment scripts are provided for docker and podman. Each should work, but podman was tested more thoroughly.
 
-To run locally with `./scripts` create a `.env` file at `./src/simbirsoft/.env` with the following content:
+To run with with `./scripts` create a `.env` file at `./src/simbirsoft/.env` with the following content:
 
 ```
 HUB_HOST=0.0.0.0
 REPORTS_PATH="<PATH_WHERE_REPORTS_WILL_BE_SAVED>"
 EXPORT_PATH="<PATH_WHERE_EXPORTS_WILL_BE_SAVED>"
 ```
+
+Running with `./scripts` requires [allure](https://github.com/allure-framework/allure2) to be installed on the system.
+
+When run in any way, the application will require a location to store data. By default, that location will be `./app_data`. The directory should be created automatically when running the test container. `./app_data` should contain the following directories: `export`, `reports`.
